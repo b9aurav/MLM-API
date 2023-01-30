@@ -1,3 +1,4 @@
+// Server configurations
 const serverConfig = {
     user: process.env.USER,
     password: process.env.PASSWORD,
@@ -7,3 +8,5 @@ const serverConfig = {
         enableArithAbort: true
     }
 };
+
+module.exports = serverConfig;
