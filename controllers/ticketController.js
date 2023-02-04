@@ -1,49 +1,24 @@
 var serverConfig = require('../config.js')
 var sql = require("mssql");
 
-// Get Users
-exports.getUsers = function (req, res) {
-    sql.connect(serverConfig, function (err) {
-        if (err) console.error(err);
-        else {
-            var request = new sql.Request();
-            request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("GetUsers", function (err, result) {
-                if (err) {
-                    console.error(err);
-                    sql.close();
-                    return res.status(500).send(err);
-                } else {
-                    sql.close();
-                    console.info(result.output.Message)
-                    return res.status(200).send({
-                        message: result.output.Message,
-                        data: result.recordset
-                    });
-                }
-            });
-        }
-    });
-};
-
-// Get User Details
+// Get Tickets by User
 /*
 PARAMETERS :
 {
     "param": {
-        "username": ""
+        "user_id": ""
     }
 }
 */
-exports.getUserDetails = function (req, res) {
+exports.getTickets = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
-            request.input("username", sql.VarChar, param.username);
+            request.input("user_id", sql.VarChar, param.user_id);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("GetUserDetails", function (err, result) {
+            request.execute("GetTickets", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
@@ -61,34 +36,28 @@ exports.getUserDetails = function (req, res) {
     });
 };
 
-// Add User
+// Add Ticket
 /*
 PARAMETERS :
 {
     "param": {
-        "username": "",
-        "name": "",
-        "phone": ,
-        "email": "",
-        "sponsor_id": "",
-        "password": ""
+        "subject": "",
+        "description": "",
+        "user_id": ""
     }
 } 
 */
-exports.addUser = function (req, res) {
+exports.addTicket = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
-            request.input("username", sql.VarChar, param.username);
-            request.input("name", sql.VarChar, param.name);
-            request.input("phone", sql.VarChar, param.phone);
-            request.input("email", sql.VarChar, param.email);
-            request.input("sponsor_id", sql.VarChar, param.sponsor_id);
-            request.input("password", sql.VarChar, param.password);
+            request.input("subject", sql.VarChar, param.subject);
+            request.input("description", sql.VarChar, param.description);
+            request.input("user_id", sql.VarChar, param.user_id);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("AddUser", function (err, result) {
+            request.execute("AddTicket", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
@@ -106,28 +75,24 @@ exports.addUser = function (req, res) {
     });
 };
 
-// Change Password
+// Delete Ticket
 /*
 PARAMETERS :
 {
     "param": {
-        "username": "",
-        "OldPassword": "",
-        "NewPassword": ""
+        "ticket_no": "",
     }
 }
 */
-exports.changeUserPassword = function (req, res) {
+exports.deleteTicket = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
-            request.input("username", sql.VarChar, param.username);
-            request.input("OldPassword", sql.VarChar, param.OldPassword);
-            request.input("NewPassword", sql.VarChar, param.NewPassword);
+            request.input("ticket_no", sql.VarChar, param.ticket_no);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("ChangeUserPassword", function (err, result) {
+            request.execute("DeleteTicket", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
