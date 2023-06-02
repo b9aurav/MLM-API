@@ -12,6 +12,7 @@ router.post("/api/GetUserDetails", userController.getUserDetails);
 router.post("/api/AddUser", userController.addUser);
 router.post("/api/ChangeUserPassword", userController.changeUserPassword);
 router.post("/api/ValidateUser", userController.validateUser);
+router.post("/api/KYCRequest", userController.KYCRequest);
 
 router.post("/api/GetTickets", ticketController.getTickets);
 router.post("/api/AddTicket", ticketController.addTicket);
@@ -28,5 +29,10 @@ router.post("/api/GetTeamByLevel", teamController.getTeamByLevel);
 router.post("/api/GetPendingTickets", ticketController.getPendingTickets);
 router.post("/api/GetRespondedTickets", ticketController.getRespondedTickets);
 router.post("/api/respondTicket", ticketController.respondTicket);
+
+router.post("/api/GetPendingKYCRequests", userController.getPendingKYCRequests);
+router.post("/api/ApproveKYC", userController.approveKYC);
+router.post("/api/GetApprovedKYCRequests", userController.getApprovedKYCRequests);
+router.post("/api/DeactivateUser", userController.deactivateUser);
 
 module.exports = router;

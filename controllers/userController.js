@@ -187,3 +187,173 @@ exports.validateUser = function (req, res) {
     });
 };
 
+// KYC Request
+/*
+PARAMETERS :
+{
+    "param": {
+        "userid": "",
+        "bank_ac_holder_name": "",
+        "ifsc": "",
+        "bank_name": "",
+        "branch": "",
+        "ac_no": "",
+        "pan_no": "",
+        "aadhar_no": ""
+    }
+}
+*/
+exports.KYCRequest = function (req, res) {
+    var param = req.body.param;
+    sql.connect(serverConfig, function (err) {
+        if (err) console.error(err);
+        else {
+            var request = new sql.Request();
+            request.input("userid", sql.VarChar, param.userid);
+            request.input("bank_ac_holder_name", sql.VarChar, param.bank_ac_holder_name);
+            request.input("ifsc", sql.VarChar, param.ifsc);
+            request.input("bank_name", sql.VarChar, param.bank_name);
+            request.input("branch", sql.VarChar, param.branch);
+            request.input("ac_no", sql.VarChar, param.ac_no);
+            request.input("pan_no", sql.VarChar, param.pan_no);
+            request.input("aadhar_no", sql.VarChar, param.aadhar_no);
+            request.output('Message', sql.NVarChar(sql.MAX))
+            request.execute("KYCRequest", function (err, result) {
+                if (err) {
+                    console.error(err);
+                    sql.close();
+                    return res.status(500).send(err);
+                } else {
+                    sql.close();
+                    console.info(result.output.Message)
+                    return res.status(200).send({
+                        message: result.output.Message,
+                        data: result.recordset
+                    });
+                }
+            });
+        }
+    });
+};
+
+// Get Pending KYC Requests
+exports.getPendingKYCRequests = function (req, res) {
+    var param = req.body.param;
+    sql.connect(serverConfig, function (err) {
+        if (err) console.error(err);
+        else {
+            var request = new sql.Request();
+            request.output('Message', sql.NVarChar(sql.MAX))
+            request.execute("GetPendingKYCRequests", function (err, result) {
+                if (err) {
+                    console.error(err);
+                    sql.close();
+                    return res.status(500).send(err);
+                } else {
+                    sql.close();
+                    console.info(result.output.Message)
+                    return res.status(200).send({
+                        message: result.output.Message,
+                        data: result.recordset
+                    });
+                }
+            });
+        }
+    });
+};
+
+// Approve KYC
+/*
+PARAMETERS :
+{
+    "param": {
+        "user_id": "",
+    }
+}
+*/
+exports.approveKYC = function (req, res) {
+    var param = req.body.param;
+    sql.connect(serverConfig, function (err) {
+        if (err) console.error(err);
+        else {
+            var request = new sql.Request();
+            request.input("user_id", sql.VarChar, param.user_id);
+            request.output('Message', sql.NVarChar(sql.MAX))
+            request.execute("ApproveKYC", function (err, result) {
+                if (err) {
+                    console.error(err);
+                    sql.close();
+                    return res.status(500).send(err);
+                } else {
+                    sql.close();
+                    console.info(result.output.Message)
+                    return res.status(200).send({
+                        message: result.output.Message,
+                        data: result.recordset
+                    });
+                }
+            });
+        }
+    });
+};
+
+// Get Approved KYC
+exports.getApprovedKYCRequests = function (req, res) {
+    var param = req.body.param;
+    sql.connect(serverConfig, function (err) {
+        if (err) console.error(err);
+        else {
+            var request = new sql.Request();
+            request.output('Message', sql.NVarChar(sql.MAX))
+            request.execute("GetApprovedKYCRequests", function (err, result) {
+                if (err) {
+                    console.error(err);
+                    sql.close();
+                    return res.status(500).send(err);
+                } else {
+                    sql.close();
+                    console.info(result.output.Message)
+                    return res.status(200).send({
+                        message: result.output.Message,
+                        data: result.recordset
+                    });
+                }
+            });
+        }
+    });
+};
+
+// Deactivate User Account
+/*
+PARAMETERS :
+{
+    "param": {
+        "user_id": "",
+    }
+}
+*/
+exports.deactivateUser = function (req, res) {
+    var param = req.body.param;
+    sql.connect(serverConfig, function (err) {
+        if (err) console.error(err);
+        else {
+            var request = new sql.Request();
+            request.input("user_id", sql.VarChar, param.user_id);
+            request.output('Message', sql.NVarChar(sql.MAX))
+            request.execute("DeactivateUser", function (err, result) {
+                if (err) {
+                    console.error(err);
+                    sql.close();
+                    return res.status(500).send(err);
+                } else {
+                    sql.close();
+                    console.info(result.output.Message)
+                    return res.status(200).send({
+                        message: result.output.Message,
+                        data: result.recordset
+                    });
+                }
+            });
+        }
+    });
+};
