@@ -35,4 +35,8 @@ router.post("/api/ApproveKYC", userController.approveKYC);
 router.post("/api/GetApprovedKYCRequests", userController.getApprovedKYCRequests);
 router.post("/api/DeactivateUser", userController.deactivateUser);
 
+router.post("/api/GetPendingWithdrawRequests", payoutController.getPendingWithdrawRequests);
+router.post("/api/RespondWithdrawRequest", payoutController.respondWithdrawRequest);
+router.post("/api/GetRespondedWithdrawRequests", payoutController.getRespondedWithdrawRequests);
+
 module.exports = router;
