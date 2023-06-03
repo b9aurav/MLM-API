@@ -10,7 +10,7 @@ PARAMETERS :
     }
 }
 */
-exports.getWithdrawRequests = function (req, res) {
+exports.getDepositRequests = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
@@ -18,7 +18,7 @@ exports.getWithdrawRequests = function (req, res) {
             var request = new sql.Request();
             request.input("user_id", sql.VarChar, param.user_id);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("GetWithdrawRequests", function (err, result) {
+            request.execute("GetDepositRequests", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
@@ -41,21 +41,21 @@ exports.getWithdrawRequests = function (req, res) {
 PARAMETERS :
 {
     "param": {
-        "payout": "",
+        "transaction_no": "",
         "user_id": ""
     }
 } 
 */
-exports.withdrawRequest = function (req, res) {
+exports.depositRequest = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
-            request.input("amount", sql.VarChar, param.amount);
+            request.input("transaction_no", sql.VarChar, param.transaction_no);
             request.input("user_id", sql.VarChar, param.user_id);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("WithdrawRequest", function (err, result) {
+            request.execute("DepositRequest", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
@@ -73,7 +73,7 @@ exports.withdrawRequest = function (req, res) {
     });
 };
 
-// Delete Withdraw Request
+// Delete Deposit Request
 /*
 PARAMETERS :
 {
@@ -82,7 +82,7 @@ PARAMETERS :
     }
 }
 */
-exports.deleteWithdrawRequest = function (req, res) {
+exports.deleteDepositRequest = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
@@ -90,7 +90,7 @@ exports.deleteWithdrawRequest = function (req, res) {
             var request = new sql.Request();
             request.input("request_id", sql.VarChar, param.request_id);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("DeleteWithdrawRequest", function (err, result) {
+            request.execute("DeleteDepositRequest", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
