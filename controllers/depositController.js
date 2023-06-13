@@ -36,7 +36,7 @@ exports.getDepositRequests = function (req, res) {
     });
 };
 
-// Add Withdraw Request
+// Add Deposit Request
 /*
 PARAMETERS :
 {
@@ -108,15 +108,15 @@ exports.deleteDepositRequest = function (req, res) {
     });
 };
 
-// Get Pending Withdraw Requests
-exports.getPendingWithdrawRequests = function (req, res) {
+// Get Pending Deposit Requests
+exports.getPendingDepositRequests = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("GetPendingWithdrawRequests", function (err, result) {
+            request.execute("GetPendingDepositRequests", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
@@ -134,28 +134,30 @@ exports.getPendingWithdrawRequests = function (req, res) {
     });
 };
 
-// Respond Withdraw Request
+// Respond Deposit Request
 /*
 PARAMETERS :
 {
     "param": {
         "request_id": "",
+        "amount": "",
         "status": "",
         "remarks": ""
     }
 }
 */
-exports.respondWithdrawRequest = function (req, res) {
+exports.respondDepositRequest = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
             request.input("request_id", sql.VarChar, param.request_id);
+            request.input("amount", sql.VarChar, param.amount);
             request.input("status", sql.VarChar, param.status);
             request.input("remarks", sql.VarChar, param.remarks);
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("RespondWithdrawRequest", function (err, result) {
+            request.execute("RespondDepositRequest", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
@@ -173,15 +175,15 @@ exports.respondWithdrawRequest = function (req, res) {
     });
 };
 
-// Get Responded Withdraw Requests
-exports.getRespondedWithdrawRequests = function (req, res) {
+// Get Responded Deposit Requests
+exports.getRespondedDepositRequests = function (req, res) {
     var param = req.body.param;
     sql.connect(serverConfig, function (err) {
         if (err) console.error(err);
         else {
             var request = new sql.Request();
             request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("GetRespondedWithdrawRequests", function (err, result) {
+            request.execute("GetRespondedDepositRequests", function (err, result) {
                 if (err) {
                     console.error(err);
                     sql.close();
