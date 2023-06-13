@@ -6,6 +6,7 @@ var ticketController = require('../controllers/ticketController');
 var payoutController = require('../controllers/payoutController');
 var teamController = require('../controllers/teamController');
 var depositController = require('../controllers/depositController');
+var earningController = require('../controllers/earningController');
 
 // Users
 router.post("/api/GetUsers", userController.getUsers);
@@ -29,6 +30,8 @@ router.post("/api/GetTeamByLevel", teamController.getTeamByLevel);
 router.post("/api/DepositRequest", depositController.depositRequest);
 router.post("/api/GetDepositRequests", depositController.getDepositRequests);
 router.post("/api/DeleteDepositRequest", depositController.deleteDepositRequest);
+
+router.post("/api/GetDirectEarnings", earningController.getDirectEarnings);
 
 // Admins
 router.post("/api/GetPendingTickets", ticketController.getPendingTickets);
