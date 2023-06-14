@@ -33,6 +33,7 @@ router.post("/api/DeleteDepositRequest", depositController.deleteDepositRequest)
 
 router.post("/api/GetDirectEarnings", earningController.getDirectEarnings);
 router.post("/api/GetIncomeByLevel", earningController.getIncomeByLevel);
+router.post("/api/GetEduRank", earningController.getEduRank);
 
 // Admins
 router.post("/api/GetPendingTickets", ticketController.getPendingTickets);
