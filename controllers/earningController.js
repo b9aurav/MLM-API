@@ -147,3 +147,39 @@ exports.getGiftRewards = function (req, res) {
         }
     });
 };
+
+// Get Autopool Earnings
+/*
+PARAMETERS :
+{
+    "param": {
+        "user_id": "",
+    }
+}
+*/
+exports.getAutopoolIncome = function (req, res) {
+    var param = req.body.param;
+    sql.connect(serverConfig, function (err) {
+        if (err) console.error(err);
+        else {
+            var request = new sql.Request();
+            request.input("user_id", sql.VarChar, param.user_id);
+            request.output('Message', sql.NVarChar(sql.MAX))
+            request.execute("GetAutopoolIncome", function (err, result) {
+                if (err) {
+                    console.error(err);
+                    sql.close();
+                    return res.status(500).send(err);
+                } else {
+                    sql.close();
+                    var responseData = result.recordsets.reverse()[1];
+                    console.info(result.output.Message)
+                    return res.status(200).send({
+                        message: result.output.Message,
+                        data: responseData
+                    });
+                }
+            });
+        }
+    });
+};
