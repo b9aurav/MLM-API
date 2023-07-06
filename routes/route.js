@@ -26,6 +26,7 @@ router.post("/api/DeleteWithdrawRequest", payoutController.deleteWithdrawRequest
 
 router.post("/api/GetDirectTeam", teamController.getDirectTeam);
 router.post("/api/GetTeamByLevel", teamController.getTeamByLevel);
+router.post("/api/GetAutopoolTeamByLevel", teamController.getAutopoolTeamByLevel);
 
 router.post("/api/DepositRequest", depositController.depositRequest);
 router.post("/api/GetDepositRequests", depositController.getDepositRequests);
@@ -33,6 +34,7 @@ router.post("/api/DeleteDepositRequest", depositController.deleteDepositRequest)
 
 router.post("/api/GetDirectEarnings", earningController.getDirectEarnings);
 router.post("/api/GetIncomeByLevel", earningController.getIncomeByLevel);
+router.post("/api/GetAutopoolIncome", earningController.getAutopoolIncome);
 router.post("/api/GetEduRank", earningController.getEduRank);
 router.post("/api/GetGiftRewards", earningController.getGiftRewards);
 
@@ -53,5 +55,9 @@ router.post("/api/GetRespondedWithdrawRequests", payoutController.getRespondedWi
 router.post("/api/GetPendingDepositRequests", depositController.getPendingDepositRequests);
 router.post("/api/RespondDepositRequest", depositController.respondDepositRequest);
 router.post("/api/GetRespondedDepositRequests", depositController.getRespondedDepositRequests);
+
+router.post("/api/GetAutopoolMembers", teamController.getAutopoolMembers);
+
+router.post("/api/GetUserDetailsByUserID", userController.getUserDetailsByUserID);
 
 module.exports = router;
