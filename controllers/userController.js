@@ -1,6 +1,6 @@
 var serverConfig = require('../config.js')
 var sql = require("mssql");
-var passwordHash = require('password-hash');
+var auth = require('./authController.js')
 
 // Get Users
 exports.getUsers = function (req, res) {
@@ -192,34 +192,16 @@ PARAMETERS :
 }
 */
 exports.validateUser = function (req, res) {
-    var param = req.body.param;
-    sql.connect(serverConfig, function (err) {
-        if (err) console.error(err);
-        else {
-            var request = new sql.Request();
-            request.input("username", sql.VarChar, param.username);
-            request.input("password", sql.VarChar, param.password);
-            request.output('Message', sql.NVarChar(sql.MAX))
-            request.execute("ValidateUserLogin", function (err, result) {
-                if (err) {
-                    console.error(err);
-                    sql.close();
-                    return res.status(500).send(err);
-                } else {
-                    sql.close();
-                    console.info(result.output.Message)
-                    var responseData = {
-                        message: result.output.Message,
-                        data: result.recordset,
-                    }
-                    if (result.output.Message == 'Info  : Login validated') {
-                        responseData.message = passwordHash.generate(param.username + param.password);
-                    }
-                    return res.status(200).send(responseData);
-                }
-            });
-        }
-    });
+  // Authenticate the user
+  auth.authenticateUser(req.body.param, (err, metadata) => {
+    if (err) {
+      return res.status(500).send({ message: err.message });
+    }
+    
+    // Generate and send the access token
+    const token = auth.generateToken(metadata.username, metadata.isAdmin);
+    return res.status(200).send({ token: token, metadata: metadata });
+  });
 };
 
 // KYC Request
